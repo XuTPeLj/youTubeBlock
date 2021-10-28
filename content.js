@@ -1,5 +1,6 @@
 if (window.location.host === 'www.youtube.com') {
 // [dev] загрузка списка → blocks
+
     findAll();
     // console.log('[]', all);
 

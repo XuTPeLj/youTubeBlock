@@ -2,19 +2,40 @@
 <head>
     <title>block</title>
     <meta charset="utf-8">
+    <script src="contentCore.js"></script>
     <script src="popup.js"></script>
     <style>
         * {
             white-space: nowrap;
+        }
+        table {
+
+        }
+        .del:hover {
+            background: red;
+        }
+        .del {
+            cursor: pointer;
+        }
+        img {
+            max-height: 200px;
+            max-width: 200px;
+            transition: .3s linear;
+        }
+        img:hover {
+            /*position: absolute;*/
+            max-height: 300px;
+            max-width: 300px;
         }
     </style>
 </head>
 <body>
     <img id="img_action" src="" />
     <br>
-    <button id="button_start">Запуск</button>
-    <button id="button_stop">Стоп</button>
-    <button id="button_pause">Пауза</button>
+    <!--<button id="button_stop">Стоп</button>-->
+    <!--<button id="button_add">Добавить текущую</button>-->
+    <button id="button_clear">Очистить</button>
     <div id="bodyDiv"></div>
+    <table border="1" cellpadding="4" cellspacing="4"><tbody id="body_table"></tbody></table>
 </body>
 </html>

@@ -1,5 +1,28 @@
 var blocks = [];
 
+
+function del(url) {
+    chrome.storage.sync.get("block", function (getBlock) {
+        getBlock = getBlock.block;
+
+        for (let i in getBlock) {
+            if (isNaN(i)) break;
+            if (getBlock[i].url == url) {
+                getBlock.splice(i,1);
+                chrome.storage.sync.set({'block': getBlock});
+                return;
+            }
+        }
+    });
+}
+function nowDate() {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+    return dd + '.' + mm + '.' + yyyy;
+}
+
 function add_event(element, event, func) {
     if (element.addEventListener) {
         element.addEventListener(event, func, true);
@@ -28,7 +51,7 @@ function clickButton(e) {
     e.stopPropagation();
     e.preventDefault();
     let th = closestA(this);
-    addBlock(th.getAttribute('href'));
+    addBlock(th);
 }
 
 function addButton(th) {
@@ -53,9 +76,11 @@ function find(blocks, url) {
     return false;
 }
 
+function findDiv(th) {
+    return closestDiv(closestDiv(th)).parentElement;
+}
 function hideA(th) {
-    let div = closestDiv(closestDiv(th));
-    hide(div.parentElement);
+    hide(findDiv(th));
 }
 
 function hide(th) {
@@ -100,20 +125,34 @@ function show_ddsobj(f) {
 
 var numFind = 0;
 
-function addBlock(url) {
+function getImg(th) {
+    let all = th.querySelectorAll('img');
+    let r = [];
+    for (let i in all) {
+        if (isNaN(i)) break;
+        r.push(all[i].getAttribute('src'));
+    }
+    return r;
+}
+function addBlock(th) {
+    console.log('[addBlock(th]',findDiv(th));
+    let url = th.getAttribute('href');
     numFind++;
-    blocks.push(url);
-    console.log('[addBlock]');
+    blocks.push(url); // [dev] - Возможно добавление будет в событии
     chrome.storage.sync.get("block", function (getBlock) {
-        console.log('[getBlock]',getBlock);
-        if (!getBlock.block)
+        console.log('[getBlock]', getBlock);
+        getBlock = getBlock.block;
+        if (!getBlock)
             getBlock = [];
-        getBlock.push(url);
+        getBlock.unshift({url: url, date: nowDate(),img:getImg(findDiv(th))});
         chrome.storage.sync.set({'block': getBlock});
+
+        //[dev]
+        // findAll();
+
     });
 
 
-    findAll();
 }
 
 function findAll() {
