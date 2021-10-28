@@ -16,19 +16,22 @@ if (window.location.host === 'www.youtube.com') {
         head.appendChild(style);
 
         style.type = 'text/css';
-        if (style.styleSheet){
+        if (style.styleSheet) {
             // This is required for IE8 and below.
             style.styleSheet.cssText = text;
         } else {
             style.appendChild(document.createTextNode(text));
         }
     }
+
     function clickButton(e) {
         e = e || window.event;
         e.stopPropagation();
         e.preventDefault();
-        console.log(this);
+        let th = closestA(this);
+        addBlock(th.getAttribute('href'));
     }
+
     function addButton(th) {
         if (!th.getAttribute('href')) return;
         if (th.hasAttribute('bblo')) return;
@@ -41,6 +44,7 @@ if (window.location.host === 'www.youtube.com') {
 
         th.appendChild(el);
     }
+
     function find(blocks, url) {
         for (let i in blocks) {
             if (isNaN(i)) break;
@@ -51,12 +55,27 @@ if (window.location.host === 'www.youtube.com') {
     }
 
     function hide(th) {
+        let div = closestDiv(closestDiv(th));
+        hide(div.parentElement);
+    }
+    function hide(th) {
         th.style.display = 'none';
+    }
+
+    function closestA(th) {
+        th = th.parentElement;
+        if (th.nodeName === 'A'
+            ||
+            th.nodeName === 'BODY')
+            return th;
+        return closestDiv(th);
     }
 
     function closestDiv(th) {
         th = th.parentElement;
-        if (th.nodeName === 'DIV')
+        if (th.nodeName === 'DIV'
+            ||
+            th.nodeName === 'BODY')
             return th;
         return closestDiv(th);
     }
@@ -79,23 +98,24 @@ if (window.location.host === 'www.youtube.com') {
 
     var blocks = ['/watch?v=LYgBatopRvA'];
     var numFind = 0;
+
     function addBlock(url) {
         numFind++;
         blocks.push(url);
         findAll();
     }
+
     function findAll() {
         var all = document.querySelectorAll('a');
         for (let i in all) {
             if (isNaN(i)) break;
-            if(numFind === all[i].getAttribute('numFind'))continue;
+            if (numFind === all[i].getAttribute('numFind')) continue;
             all[i].setAttribute('numFind', numFind);
-console.log(all[i].getAttribute('href'));
+            console.log(all[i].getAttribute('href'));
             addButton(all[i]);
             if (find(blocks, all[i].getAttribute('href'))) {
                 console.log(all[i].getAttribute('href'));
-                let div = closestDiv(closestDiv(all[i]));
-                hide(div);
+                hideA(all[i]);
                 console.log('[div]', div);
             }
         }
