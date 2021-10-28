@@ -13,7 +13,7 @@ if (window.location.host === 'www.youtube.com') {
         'font-size: 20px' +
         '}' +
         '.bblo{' +
-        'margin-top: -10px;' +
+        'margin-top: -5px;' +
         'transition: .3s linear;' +
         'z-index: 999999;' +
         'display: none;' +
