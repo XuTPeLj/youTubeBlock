@@ -103,6 +103,16 @@ var numFind = 0;
 function addBlock(url) {
     numFind++;
     blocks.push(url);
+    console.log('[addBlock]');
+    chrome.storage.sync.get("block", function (getBlock) {
+        console.log('[getBlock]',getBlock);
+        if (!getBlock.block)
+            getBlock = [];
+        getBlock.push(url);
+        chrome.storage.sync.set({'block': getBlock});
+    });
+
+
     findAll();
 }
 
@@ -112,10 +122,10 @@ function findAll() {
         if (isNaN(i)) break;
         if (numFind === all[i].getAttribute('numFind')) continue;
         all[i].setAttribute('numFind', numFind);
-        console.log(all[i].getAttribute('href'));
+        // console.log(all[i].getAttribute('href'));
         addButton(all[i]);
         if (find(blocks, all[i].getAttribute('href'))) {
-            console.log(all[i].getAttribute('href'));
+            // console.log(all[i].getAttribute('href'));
             hideA(all[i]);
         }
     }

@@ -22,6 +22,12 @@ if (window.location.host === 'www.youtube.com') {
         '' +
         '}'
     );
+    console.log('[1]', blocks);
+    chrome.storage.sync.get("block", function (getBlock) {
+        console.log('[getBlock]',getBlock);
+    });
+    console.log('[2]', blocks);
+
 }
 
 
