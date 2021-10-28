@@ -146,10 +146,6 @@ function addBlock(th) {
             getBlock = [];
         getBlock.unshift({url: url, date: nowDate(),img:getImg(findDiv(th))});
         chrome.storage.sync.set({'block': getBlock});
-
-        //[dev]
-        // findAll();
-
     });
 
 

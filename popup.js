@@ -1,5 +1,8 @@
 setTimeout(() => {
     button_clear.onclick = clear;
+    button_save.onclick = save;
+    button_load.onclick = load;
+
     console.log('[location]', window.location.host);
 
     function clear() {
@@ -26,9 +29,26 @@ setTimeout(() => {
 
     add_event(document, 'click', function (e){
         let th = e.target;
+        if (th.className !== 'del') return;
         let url = th.getAttribute('url');
         del(url);
         hide(th.parentElement);
     });
 
+
+    function save(){
+        chrome.storage.sync.get("block", function (getBlock) {
+            getBlock = getBlock.block;
+            let obj = {};
+            obj[input_save.value] = getBlock;
+            chrome.storage.sync.set(obj);
+        });
+    }
+    function load(){
+        chrome.storage.sync.get(input_load.value, function (getBlock) {
+            getBlock = getBlock[input_load.value];
+            let obj = {};
+            obj['block'] = getBlock;
+            chrome.storage.sync.set(obj);
+        });}
 }, 1);
