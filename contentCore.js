@@ -1,4 +1,12 @@
+/**
+ * on addBlock(th) - блокирует - добавляет в признак блокирования
+ * По клику на крестик (clickButton) - в облости объекта
+ * on findAll() - поиск по всем ссылкам
+ * <- setInterval(findAll, 1000);
+ */
+
 var blocks = [];
+
 
 
 function del(url) {
@@ -71,7 +79,7 @@ function findChannel(block, th) {
     if (!block.channel) return false;
     let channel = th.parentElement.parentElement.querySelector('.ytd-channel-name');
     if (channel)
-        channel = channel.textContent;
+        channel = channel.innerText.trim('\n');
     if(channel === block.channel) return true;
     return false;
 }
@@ -160,8 +168,10 @@ function addBlock(th) {
             getBlock = [];
         let channel = th.parentElement.querySelector('.ytd-channel-name');
         if (channel)
-            channel = channel.textContent;
-        getBlock.unshift({url: url,channel: channel, date: nowDate(),img:getImg(findDiv(th))});
+            channel = channel.innerText.trim('\n');
+        let obj = {url: url,channel: channel, date: nowDate(),img:getImg(findDiv(th))};
+        console.log('[obj]', obj);
+        getBlock.unshift(obj);
         chrome.storage.local.set({'block': getBlock});
     });
 
@@ -172,7 +182,7 @@ function findAll() {
     var all = document.querySelectorAll('a');
     for (let i in all) {
         if (isNaN(i)) break;
-        if (numFind === all[i].getAttribute('numFind')) continue;
+        if (numFind == all[i].getAttribute('numFind')) continue;
         all[i].setAttribute('numFind', numFind);
         // console.log(all[i].getAttribute('href'));
 
