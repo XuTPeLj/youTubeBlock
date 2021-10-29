@@ -29,6 +29,10 @@ if (window.location.host === 'www.youtube.com') {
     console.log('[1]', blocks);
     chrome.storage.local.get("block", function (getBlock) {
         console.log('[getBlock]',getBlock);
+        getBlock = getBlock.block;
+        blocks = getBlock;
+        numFind++;
+        findAll();
     });
     console.log('[2]', blocks);
 
@@ -39,6 +43,7 @@ if (window.location.host === 'www.youtube.com') {
             if (isNaN(i)) break;
             blocks.push(getBlock[i].url);
         }*/
+        numFind++;
         findAll();
     });
     setInterval(findAll, 1000);
