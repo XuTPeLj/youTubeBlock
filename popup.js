@@ -19,7 +19,7 @@ setTimeout(() => {
             let tr = document.createElement('tr');
             let imgStrTd = '<td><img src="' + getBlock[i].img.join('"/></td><td><img src="') + '"/></td>';
 
-            tr.innerHTML += `<td>${i}</td><td>${getBlock[i].date}</td>${imgStrTd}<td class="del" url="${getBlock[i].url}">X</td>`;
+            tr.innerHTML += `<td>${i}</td><td>${getBlock[i].date}</td>${imgStrTd}<td class="del" url="${getBlock[i].url}">X</td><td>${getBlock[i].channel}</td>`;
 
             body_table.appendChild(tr)
 

@@ -32,11 +32,11 @@ if (window.location.host === 'www.youtube.com') {
 
     chrome.storage.onChanged.addListener(function (getBlock, namespace) {
         getBlock = getBlock.block.newValue;
-        blocks = [];
-        for (let i in getBlock) {
+        blocks = getBlock;
+        /*for (let i in getBlock) {
             if (isNaN(i)) break;
             blocks.push(getBlock[i].url);
-        }
+        }*/
         findAll();
     });
     setInterval(findAll, 1000);

@@ -67,17 +67,31 @@ function addButton(th) {
     th.appendChild(el);
 }
 
-function find(blocks, url) {
+function findChannel(block, th) {
+    if (!block.channel) return false;
+    let channel = th.parentElement.parentElement.querySelector('.ytd-channel-name');
+    if (channel)
+        channel = channel.textContent;
+    if(channel === block.channel) return true;
+    return false;
+}
+function find(blocks, th) {
+    let url = th.getAttribute('href');
     for (let i in blocks) {
         if (isNaN(i)) break;
-        if (blocks[i] === url)
+        if (blocks[i].url === url
+        || findChannel(blocks[i], th)
+        )
             return true;
     }
     return false;
 }
 
 function findDiv(th) {
-    return closestDiv(closestDiv(th)).parentElement;
+    th = closestDiv(th);
+    if (th.className.indexOf('ytd-compact-video-renderer'))
+        return th.parentElement;
+    return closestDiv(th).parentElement;
 }
 function hideA(th) {
     hide(findDiv(th));
@@ -144,7 +158,10 @@ function addBlock(th) {
         getBlock = getBlock.block;
         if (!getBlock)
             getBlock = [];
-        getBlock.unshift({url: url, date: nowDate(),img:getImg(findDiv(th))});
+        let channel = th.parentElement.querySelector('.ytd-channel-name');
+        if (channel)
+            channel = channel.textContent;
+        getBlock.unshift({url: url,channel: channel, date: nowDate(),img:getImg(findDiv(th))});
         chrome.storage.local.set({'block': getBlock});
     });
 
@@ -158,11 +175,13 @@ function findAll() {
         if (numFind === all[i].getAttribute('numFind')) continue;
         all[i].setAttribute('numFind', numFind);
         // console.log(all[i].getAttribute('href'));
-        addButton(all[i]);
-        if (find(blocks, all[i].getAttribute('href'))) {
+
+        if (find(blocks, all[i])) {
             // console.log(all[i].getAttribute('href'));
             hideA(all[i]);
+            continue;
         }
+        addButton(all[i]);
     }
 }
 
