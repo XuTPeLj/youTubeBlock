@@ -6,11 +6,11 @@ setTimeout(() => {
     console.log('[location]', window.location.host);
 
     function clear() {
-        chrome.storage.sync.set({'block': []});
+        chrome.storage.local.set({'block': []});
     };
 
 
-    chrome.storage.sync.get("block", function (getBlock) {
+    chrome.storage.local.get("block", function (getBlock) {
         getBlock = getBlock.block;
         console.log('[getBlock]', getBlock);
 
@@ -37,18 +37,18 @@ setTimeout(() => {
 
 
     function save(){
-        chrome.storage.sync.get("block", function (getBlock) {
+        chrome.storage.local.get("block", function (getBlock) {
             getBlock = getBlock.block;
             let obj = {};
             obj[input_save.value] = getBlock;
-            chrome.storage.sync.set(obj);
+            chrome.storage.local.set(obj);
         });
     }
     function load(){
-        chrome.storage.sync.get(input_load.value, function (getBlock) {
+        chrome.storage.local.get(input_load.value, function (getBlock) {
             getBlock = getBlock[input_load.value];
             let obj = {};
             obj['block'] = getBlock;
-            chrome.storage.sync.set(obj);
+            chrome.storage.local.set(obj);
         });}
 }, 1);

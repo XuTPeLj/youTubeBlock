@@ -2,14 +2,14 @@ var blocks = [];
 
 
 function del(url) {
-    chrome.storage.sync.get("block", function (getBlock) {
+    chrome.storage.local.get("block", function (getBlock) {
         getBlock = getBlock.block;
 
         for (let i in getBlock) {
             if (isNaN(i)) break;
             if (getBlock[i].url == url) {
                 getBlock.splice(i,1);
-                chrome.storage.sync.set({'block': getBlock});
+                chrome.storage.local.set({'block': getBlock});
                 return;
             }
         }
@@ -139,13 +139,13 @@ function addBlock(th) {
     let url = th.getAttribute('href');
     numFind++;
     blocks.push(url); // [dev] - Возможно добавление будет в событии
-    chrome.storage.sync.get("block", function (getBlock) {
+    chrome.storage.local.get("block", function (getBlock) {
         console.log('[getBlock]', getBlock);
         getBlock = getBlock.block;
         if (!getBlock)
             getBlock = [];
         getBlock.unshift({url: url, date: nowDate(),img:getImg(findDiv(th))});
-        chrome.storage.sync.set({'block': getBlock});
+        chrome.storage.local.set({'block': getBlock});
     });
 
 
