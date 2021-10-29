@@ -7,6 +7,8 @@ if (window.location.host === 'www.youtube.com') {
     loadStyle(
         'a:hover .bblo{' +
         'font-size: 20px;' +
+        'padding: 5px;' +
+        'border: black 1px solid;' +
         '}' +
         '.bblo:hover{' +
         'cursor: pointer;' +
@@ -15,12 +17,12 @@ if (window.location.host === 'www.youtube.com') {
         '}' +
         '.bblo{' +
         'font-size: 0px;' +
-        'padding: 5px;' +
+        'padding: 0px;' +
         'margin-right: 15px;' +
         'transition: .3s linear;' +
         'z-index: 999999;' +
         'position: absolute;' +
-        'border: black 1px solid;' +
+        'border: black 0px solid;' +
         '' +
         '}'
     );
