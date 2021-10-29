@@ -17,9 +17,9 @@ setTimeout(() => {
         for (let i in getBlock) {
             if (isNaN(i)) break;
             let tr = document.createElement('tr');
-            let imgStrTd = '<td><img src="' + getBlock[i].img.join('"/></td><td><img src="') + '"/></td>';
+            let imgStrTd = '<table cellspacing="4" class="tableImage"><tr><td><img src="' + getBlock[i].img.join('"/></td><td><img src="') + '"/></td></tr></table>';
 
-            tr.innerHTML += `<td class="del" url="${getBlock[i].url}">X</td><td>${i}</td><td>${getBlock[i].date}</td>${imgStrTd}<td>${getBlock[i].channel}</td>`;
+            tr.innerHTML += `<td class="del" url="${getBlock[i].url}">X</td><td>${i}</td><td>${getBlock[i].date}</td><td>${imgStrTd}</td><td>${getBlock[i].channel}</td><td>${getBlock[i].url}</td>`;
 
             body_table.appendChild(tr)
 
