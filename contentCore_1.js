@@ -97,10 +97,20 @@ function find(blocks, th) {
 }
 
 function findDiv(th) {
+    console.log('[findDiv]', th);
     th = closestId(th, 'dismissible');
     if (th.className.indexOf('ytd-compact-video-renderer') != -1) {
+        console.log('[compact]');
         return th.parentElement;
     }
+    console.log('[n]', th, closestDiv(th).parentElement);
+    return closestDiv(th).parentElement;
+}
+
+function findDiv1(th) {
+    th = closestDiv(th);
+    if (th.className.indexOf('ytd-compact-video-renderer') != -1)
+        return th.parentElement;
     return closestDiv(th).parentElement;
 }
 
@@ -126,7 +136,7 @@ function closestId(th, id) {
     if (!th
         || th.getAttribute('id') === id)
         return th;
-    return closestId(th.parentElement, id);
+    return closestId(th.parentElement);
 }
 
 function closestDiv(th) {
