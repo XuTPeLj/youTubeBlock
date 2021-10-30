@@ -39,6 +39,7 @@ if (window.location.host === 'www.youtube.com') {
     chrome.storage.onChanged.addListener(function (getBlock, namespace) {
         getBlock = getBlock.block.newValue;
         blocks = getBlock;
+        if (!blocks) blocks = [];
         /*for (let i in getBlock) {
             if (isNaN(i)) break;
             blocks.push(getBlock[i].url);
