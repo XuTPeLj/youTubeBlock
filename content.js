@@ -4,28 +4,31 @@ if (window.location.host === 'www.youtube.com') {
     findAll();
     // console.log('[]', all);
 
-    loadStyle(
-        'a:hover .bblo{' +
-        'font-size: 20px;' +
-        'padding: 5px;' +
-        'border: black 1px solid;' +
-        '}' +
-        '.bblo:hover{' +
-        'cursor: pointer;' +
-        'background: red;' +
-        'font-size: 30px;' +
-        '}' +
-        '.bblo{' +
-        'font-size: 0px;' +
-        'padding: 0px;' +
-        'margin-right: 15px;' +
-        'transition: .3s linear;' +
-        'z-index: 999999;' +
-        'position: absolute;' +
-        'border: black 0px solid;' +
-        '' +
-        '}'
-    );
+        loadStyle(
+            'a:hover .bblo{' +
+            'font-size: 20px;' +
+            'padding: 5px;' +
+            'border: #00000033 1px solid;' +
+            '}' +
+            '.bblo:hover{' +
+            'opacity: 1;' +
+            'cursor: pointer;' +
+            'background: red;' +
+            'font-size: 30px;' +
+            '}' +
+            '.bblo{' +
+            'font-size: 0px;' +
+            'opacity: 0.2;' +
+            'padding: 0px;' +
+            'margin-right: 15px;' +
+            'transition: .3s linear;' +
+            'z-index: 999999;' +
+            'position: absolute;' +
+            'border: transparent 0px solid;' +
+            'border-radius: 5px;' +
+            '' +
+            '}'
+        );
     console.log('[1]', blocks);
     chrome.storage.local.get("block", function (getBlock) {
         console.log('[getBlock]',getBlock);
