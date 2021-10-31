@@ -8,13 +8,21 @@
 var blocks = [];
 
 
-function del(url) {
+function del(th) {
     chrome.storage.local.get("block", function (getBlock) {
         getBlock = getBlock.block;
+        let key = 'url';
+        let value = th.getAttribute(key);
+        console.log(value, typeof value);
+        if(!value || value == 'null'){
+            key = 'channel';
+            value = th.getAttribute(key);
+            console.log(key, value);
+        }
 
         for (let i in getBlock) {
             if (isNaN(i)) break;
-            if (getBlock[i].url == url) {
+            if (getBlock[i][key] == value) {
                 getBlock.splice(i, 1);
                 chrome.storage.local.set({'block': getBlock});
                 return;
@@ -22,6 +30,15 @@ function del(url) {
         }
     });
 }
+
+function HTMLEncode(html) {
+    var temp = document.createElement("div");
+    (temp.textContent != null) ? (temp.textContent = html) : (temp.innerText = html);
+    var output = temp.innerHTML;
+    temp = null;
+    return output;
+}
+
 
 function nowDate() {
     var today = new Date();
@@ -58,13 +75,25 @@ function clickButton(e) {
     e = e || window.event;
     e.stopPropagation();
     e.preventDefault();
-    let th = closestA(this);
+    let th = this;
+    console.log('[clickButton]', th);
+    if (th.parentElement.getAttribute('href')) {
+        console.log('[1]');
+        addBlock(th.parentElement);
+        return;
+    }
+    th = closestA(th);
     addBlock(th);
 }
 
-function addButton(th) {
+function addButtonA(th) {
     if (!th.getAttribute('href')) return;
     if (th.hasAttribute('bblo')) return;
+    addButton(th);
+}
+
+function addButton(th) {
+    if (th.getAttribute('bblo')) return;
     th.setAttribute('bblo', 1);
     let el = document.createElement('div');
     el.className = 'bblo';
@@ -73,6 +102,7 @@ function addButton(th) {
     // add_event(el, 'click', clickButton);
 
     th.appendChild(el);
+    return el;
 }
 
 function findChannel(block, th) {
@@ -98,6 +128,7 @@ function find(blocks, th) {
 
 function findDiv(th) {
     th = closestId(th, 'dismissible');
+    if (!th) return th;
     if (th.className.indexOf('ytd-compact-video-renderer') != -1) {
         return th.parentElement;
     }
@@ -109,6 +140,7 @@ function hideA(th) {
 }
 
 function hide(th) {
+    if (!th) return;
     th.style.display = 'none';
     console.log('[hide]', th);
 }
@@ -159,8 +191,9 @@ function show_ddsobj(f) {
 var numFind = 0;
 
 function getImg(th) {
-    let all = th.querySelectorAll('img');
     let r = [];
+    if (!th) return r;
+    let all = th.querySelectorAll('img');
     for (let i in all) {
         if (isNaN(i)) break;
         r.push(all[i].getAttribute('src'));
@@ -169,9 +202,8 @@ function getImg(th) {
 }
 
 function addBlock(th) {
-    console.log('[addBlock(th]', findDiv(th));
+    console.log('[addBlock(th]', th);
     let url = th.getAttribute('href');
-    numFind++;
     blocks.push(url); // [dev] - Возможно добавление будет в событии
     chrome.storage.local.get("block", function (getBlock) {
         console.log('[getBlock]', getBlock);
@@ -185,6 +217,7 @@ function addBlock(th) {
         console.log('[obj]', obj);
         getBlock.unshift(obj);
         chrome.storage.local.set({'block': getBlock});
+        numFind++;
     });
 
 
@@ -203,8 +236,31 @@ function findAll() {
             hideA(all[i]);
             continue;
         }
-        addButton(all[i]);
+        addButtonA(all[i]);
     }
+}
+
+
+function findPlayer() {
+    console.log('[findPlayer]');
+    // let player = document.all('player');
+    let players = document.querySelectorAll('.html5-video-container');
+    /*if (!HTMLCollection.prototype.isPrototypeOf(player)) {
+        doToPlayer(player);
+        return;
+    }*/
+
+    for (let i in players) {
+        if (isNaN(i)) break;
+        doToPlayer(players[i]);
+    }
+
+}
+
+function doToPlayer(player) {
+    player.setAttribute('href', window.location.href.replace('https://www.youtube.com', ''));
+    let el = addButton(player);
+    if (el) el.style.top = '-8px';
 }
 
 

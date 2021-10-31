@@ -19,7 +19,7 @@ setTimeout(() => {
             let tr = document.createElement('tr');
             let imgStrTd = '<table cellspacing="4" class="tableImage"><tr><td><img src="' + getBlock[i].img.join('"/></td><td><img src="') + '"/></td></tr></table>';
 
-            tr.innerHTML += `<td class="del" url="${getBlock[i].url}">X</td><td>${i}</td><td>${getBlock[i].date}</td><td>${imgStrTd}</td><td>${getBlock[i].channel}</td><td>${getBlock[i].url}</td>`;
+            tr.innerHTML += `<td class="del" url="${getBlock[i].url}" channel="${getBlock[i].channel}">X</td><td>${i}</td><td>${getBlock[i].date}</td><td>${imgStrTd}</td><td>${getBlock[i].channel}</td><td>${getBlock[i].url}</td>`;
 
             body_table.appendChild(tr)
 
@@ -30,8 +30,7 @@ setTimeout(() => {
     add_event(document, 'click', function (e){
         let th = e.target;
         if (th.className !== 'del') return;
-        let url = th.getAttribute('url');
-        del(url);
+        del(th);
         hide(th.parentElement);
     });
 

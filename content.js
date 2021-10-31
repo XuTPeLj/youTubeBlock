@@ -5,7 +5,7 @@ if (window.location.host === 'www.youtube.com') {
     // console.log('[]', all);
 
         loadStyle(
-            'a:hover .bblo{' +
+            'a:hover .bblo, #player:hover .bblo{' +
             'font-size: 20px;' +
             'padding: 5px;' +
             'border: #00000033 1px solid;' +
@@ -51,7 +51,12 @@ if (window.location.host === 'www.youtube.com') {
         findAll();
     });
     setInterval(findAll, 1000);
+    findPlayer();
+    add_event(document, 'click', ()=>{setInterval(findPlayer,1000);});
 }
+
+
+
 
 
 
