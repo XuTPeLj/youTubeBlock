@@ -13,11 +13,11 @@ function del(th) {
         getBlock = getBlock.block;
         let key = 'url';
         let value = th.getAttribute(key);
-        console.log(value, typeof value);
+        // console.log(value, typeof value);
         if(!value || value == 'null'){
             key = 'channel';
             value = th.getAttribute(key);
-            console.log(key, value);
+            // console.log(key, value);
         }
 
         for (let i in getBlock) {
@@ -76,9 +76,9 @@ function clickButton(e) {
     e.stopPropagation();
     e.preventDefault();
     let th = this;
-    console.log('[clickButton]', th);
+    // console.log('[clickButton]', th);
     if (th.parentElement.getAttribute('href')) {
-        console.log('[1]');
+        // console.log('[1]');
         addBlock(th.parentElement);
         return;
     }
@@ -142,7 +142,7 @@ function hideA(th) {
 function hide(th) {
     if (!th) return;
     th.style.display = 'none';
-    console.log('[hide]', th);
+    // console.log('[hide]', th);
 }
 
 function closestA(th) {
@@ -202,11 +202,11 @@ function getImg(th) {
 }
 
 function addBlock(th) {
-    console.log('[addBlock(th]', th);
+    // console.log('[addBlock(th]', th);
     let url = th.getAttribute('href');
     blocks.push(url); // [dev] - Возможно добавление будет в событии
     chrome.storage.local.get("block", function (getBlock) {
-        console.log('[getBlock]', getBlock);
+        // console.log('[getBlock]', getBlock);
         getBlock = getBlock.block;
         if (!getBlock)
             getBlock = [];
@@ -214,7 +214,7 @@ function addBlock(th) {
         if (channel)
             channel = channel.innerText.trim('\n');
         let obj = {url: url, channel: channel, date: nowDate(), img: getImg(findDiv(th))};
-        console.log('[obj]', obj);
+        // console.log('[obj]', obj);
         getBlock.unshift(obj);
         chrome.storage.local.set({'block': getBlock});
         numFind++;
@@ -242,7 +242,7 @@ function findAll() {
 
 
 function findPlayer() {
-    console.log('[findPlayer]');
+    // console.log('[findPlayer]');
     // let player = document.all('player');
     let players = document.querySelectorAll('.html5-video-container');
     /*if (!HTMLCollection.prototype.isPrototypeOf(player)) {

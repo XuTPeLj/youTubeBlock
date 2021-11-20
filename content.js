@@ -29,15 +29,15 @@ if (window.location.host === 'www.youtube.com') {
             '' +
             '}'
         );
-    console.log('[1]', blocks);
+    // console.log('[1]', blocks);
     chrome.storage.local.get("block", function (getBlock) {
-        console.log('[getBlock]',getBlock);
+        // console.log('[getBlock]',getBlock);
         getBlock = getBlock.block;
         blocks = getBlock;
         numFind++;
         findAll();
     });
-    console.log('[2]', blocks);
+    // console.log('[2]', blocks);
 
     chrome.storage.onChanged.addListener(function (getBlock, namespace) {
         getBlock = getBlock.block.newValue;

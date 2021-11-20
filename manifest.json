@@ -9,7 +9,8 @@
       ],
       "js": [
         "contentCore.js",
-        "content.js"
+        "content.js",
+        "contentButtom.js"
       ]
     }
   ],
