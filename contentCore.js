@@ -263,5 +263,6 @@ function doToPlayer(player) {
     if (el) el.style.top = '-8px';
 }
 
-
-
+function visible(elem) {
+    return elem && !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length);
+}
