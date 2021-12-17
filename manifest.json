@@ -9,6 +9,7 @@
       ],
       "js": [
         "contentCore.js",
+        "style.js",
         "content.js",
         "contentButtom.js",
         "contentButtomSubscribe.js"
