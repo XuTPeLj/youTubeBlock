@@ -6,9 +6,9 @@ if (window.location.host === 'www.youtube.com') {
  display: none !important;   
 }
 /* Кнопка проигрывать следующее */
-.ytp-next-button{
+/*.ytp-next-button{
     display:none !important;
-}
+}*/
 /* скрыть всё на видео */
 .video-ads>div>div,#continuations{
 display: none !important
