@@ -6,7 +6,7 @@
  */
 
 var blocks = [];
-
+var iFindAll=0;
 
 function del(th) {
     chrome.storage.local.get("block", function (getBlock) {
@@ -114,6 +114,18 @@ function findChannel(block, th) {
     return false;
 }
 
+function checkA(th) {
+    let url = th.getAttribute('href');
+    if (!url) return false;
+        if (url.indexOf('/c/') === 0) {
+            return true;
+        }
+        if (url.indexOf('/watch?') === 0) {
+            return true;
+        }
+    return false;
+}
+
 function find(blocks, th) {
     let url = th.getAttribute('href');
     for (let i in blocks) {
@@ -126,13 +138,26 @@ function find(blocks, th) {
     return false;
 }
 
-function findDiv(th) {
-    th = closestId(th, 'dismissible');
+function findDiv(th_) {
+    let result;
+    let state;
+    th = closestId(th_, 'dismissible');
     if (!th) return th;
     if (th.className.indexOf('ytd-compact-video-renderer') != -1) {
-        return th.parentElement;
+        state = 1;
+        result = th.parentElement;
+    } else {
+        state = 2;
+        result = closestDiv(th).parentElement;
+        if (result.querySelectorAll('a').length > 4) {
+            result = closestDiv(th)
+        }
+        if (result.querySelectorAll('a').length > 4) {
+            result = th_
+        }
     }
-    return closestDiv(th).parentElement;
+    console.log('[findDiv]', iFindAll, state, result.querySelectorAll('a').length, th, result);
+    return result;
 }
 
 function hideA(th) {
@@ -141,7 +166,14 @@ function hideA(th) {
 
 function hide(th) {
     if (!th) return;
-    th.style.display = 'none';
+    // th.style.display = 'none';
+    th.style.backgroundColor = 'red';
+    /*th.focus();
+    if (document.all('menu')) {
+        console.log('[menu]',document.all('menu'));
+        document.all('menu').click();
+    }*/
+    // setTimeout(() => {
     // console.log('[hide]', th);
 }
 
@@ -224,19 +256,22 @@ function addBlock(th) {
 }
 
 function findAll() {
+    ++iFindAll;
     var all = document.querySelectorAll('a');
+    // console.log('[all.length]', iFindAll, all.length);
     for (let i in all) {
         if (isNaN(i)) break;
         if (numFind == all[i].getAttribute('numFind')) continue;
         all[i].setAttribute('numFind', numFind);
         // console.log(all[i].getAttribute('href'));
-
-        if (find(blocks, all[i])) {
-            // console.log(all[i].getAttribute('href'));
-            hideA(all[i]);
-            continue;
+        if (checkA(all[i])) {
+            if (find(blocks, all[i])) {
+                // console.log(all[i].getAttribute('href'));
+                hideA(all[i]);
+                continue;
+            }
+            addButtonA(all[i]);
         }
-        addButtonA(all[i]);
     }
 }
 
